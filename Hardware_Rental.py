@@ -129,7 +129,7 @@ class Customer ():
         self._rentals.remove(rental)
     def rent(self,store,day):
         self._rentalType.rent(self,store,day)
-    def check_store_stock(self,store, day):
+    def decides_to_visit_store(self,store, day):
         '''Check if I need more tools and if the store has tools to give to me.'''
         return day==self._nextProject and store.get_inventory_count()>0 and self._totalTools<3
     def _set_next_project(self,day):
@@ -145,7 +145,7 @@ class Customer ():
         return self._name
    
 class BusinessCustomer (Customer):
-    def check_store_stock(self,store,day):
+    def decides_to_visit_store(self,store,day):
         return store.get_inventory_count() >=3 and day >= self._nextProject and self._totalTools==0
     def _set_next_project(self,day):
         '''Decide when I will be looking to rent tools again '''
@@ -229,7 +229,7 @@ class Simulator():
         self._store.return_rentals(self._day)
         shuffle(self._customers)
         for customer in self._customers:
-            if customer.check_store_stock(self._store,self._day):
+            if customer.decides_to_visit_store(self._store,self._day):
                 customer.visit(self._store,self._day)
         self._day+=1
         
