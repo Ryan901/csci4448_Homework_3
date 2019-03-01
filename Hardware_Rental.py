@@ -29,7 +29,7 @@ class Store():
         '''Process rental returns that are due back today. Return tools to inventory. '''
         for rental in list(self._activeRentals):
             if rental.check_due(day):
-                rental.returned_by_customer()
+                rental.returned_by_tool_elves()
                 self._inventory+=rental.get_tools()
                 self._completeRentals.append(rental)
                 self._activeRentals.remove(rental)
@@ -161,7 +161,7 @@ class Rental ():
         self._total=0
         self._calc_total()
         self._toolCount=len(tools)
-    def returned_by_customer(self):
+    def returned_by_tool_elves(self):
         '''Remove this rental from its customers rentals'''
         self._customer.remove_rental(self)
     def _calc_total(self):
